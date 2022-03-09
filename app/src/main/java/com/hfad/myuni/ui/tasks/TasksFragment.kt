@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 import com.hfad.myuni.ui.main.PageViewModel
 
@@ -30,10 +30,14 @@ class TasksFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_tasks, container, false)
-        val textView: TextView = root.findViewById(R.id.section_label)
-        pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
-            textView.text = it
-        })
+
+        val recyclerView: RecyclerView = root.findViewById(R.id.tasks_recycler)
+        val layoutManager = LinearLayoutManager(this.context)
+        val adapter = TasksAdapter()
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
+
         return root
     }
 
