@@ -9,6 +9,8 @@
     <TextView
         android:id="@+id/item_tasks_subject_hint"
         android:text="Przedmiot:"
+        android:textColor="@color/white"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -42,6 +44,8 @@
 
     <TextView
         android:id="@+id/textView2"
+        android:textSize="12sp"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
