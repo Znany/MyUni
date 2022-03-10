@@ -5,4 +5,4 @@ data class Task(val subject: String,
                 val description: String,
                 val shortDescription: String,
                 val id: Int,
-                val isDone: Boolean)
+                var isDone: Boolean)

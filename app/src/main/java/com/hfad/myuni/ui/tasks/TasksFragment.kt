@@ -68,6 +68,7 @@ class TasksFragment : Fragment() {
                 taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
             }
             adapter.tasks = taskList
+            adapter.sortTasks()
             adapter.notifyDataSetChanged()
         },
             {

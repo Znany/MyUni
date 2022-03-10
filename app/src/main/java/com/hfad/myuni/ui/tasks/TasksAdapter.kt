@@ -1,5 +1,6 @@
 package com.hfad.myuni.ui.tasks
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +21,16 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if(viewType == 0){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
             EmptyTaskViewHolder(view)
-        } else{
+        } else if (viewType == 1){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
+            TaskViewHolder(view)
+        } else{
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_done, parent, false)
             TaskViewHolder(view)
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
             Log.d("Adapter", String.format("lIST SIZE: %d", tasks.size))
@@ -34,6 +39,9 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
             holder.markAsDone.setOnClickListener {
+                tasks[position].isDone = true
+                sortTasks()
+                notifyDataSetChanged()
                 taskClickPublisher.onNext(position)
             }
         }
@@ -50,8 +58,33 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if(tasks.size == 0){
             0
         } else{
-            1
+            if(tasks[position].isDone){
+                2
+            }
+            else{
+                1
+            }
         }
+    }
+
+    fun sortTasks(){
+        //Sort all tasks by date
+        var wasChagned = true
+        while (wasChagned){
+            wasChagned = false
+            for (i in 0 until tasks.size - 1){
+                if(tasks[i].date > tasks[i + 1].date){
+                    wasChagned = true
+                }
+            }
+        }
+
+        //Move tasks that are marked as done to the bottom
+        var i = 0
+        while (i < tasks.size){
+            i++
+        }
+
     }
 }
 
