@@ -1,5 +1,6 @@
 package com.hfad.myuni.ui.tasks
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,18 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var taskClickPublisher: PublishSubject<Int> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
-        return TaskViewHolder(view)
+        return if(viewType == 0){
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
+            EmptyTaskViewHolder(view)
+        } else{
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
+            TaskViewHolder(view)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
+            Log.d("Adapter", String.format("lIST SIZE: %d", tasks.size))
             holder.subjectTextView.text = tasks[position].subject
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
@@ -33,6 +40,9 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        if(tasks.size == 0){
+            return 1;
+        }
         return tasks.size
     }
 
@@ -40,6 +50,16 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.tasks = tasks
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if(tasks.size == 0){
+            0
+        } else{
+            1
+        }
+    }
+}
+
+class EmptyTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
 }
 
