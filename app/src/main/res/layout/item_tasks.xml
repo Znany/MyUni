@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginVertical="5dp"
     android:layout_marginHorizontal="10dp"
     android:background="@drawable/item_tasks_background"
     android:layout_width="match_parent"
-    android:layout_height="115dp">
+    android:layout_height="90dp">
 
     <TextView
         android:id="@+id/item_tasks_subject_hint"
-        android:text="Przedmiot:"
+        android:text="@string/subject"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_width="wrap_content"
@@ -48,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Do kiedy:"
+        android:text="@string/until_when"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/item_tasks_date"
@@ -59,11 +60,22 @@
         android:id="@+id/item_tasks_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="65dp"
         android:text="15.03.2022"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_tasks_date_hint">
     </TextView>
+
+    <ImageView
+        android:id="@+id/item_tasks_mark_as_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/task_not_done_yet"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </ImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

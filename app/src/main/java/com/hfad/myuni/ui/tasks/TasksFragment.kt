@@ -4,12 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
+import com.hfad.myuni.ui.dataClass.Task
 import com.hfad.myuni.ui.main.PageViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 /**
  * A placeholder fragment containing a simple view.
@@ -37,6 +43,11 @@ class TasksFragment : Fragment() {
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+
+        val taskClick: PublishSubject<Int> = adapter.taskClickPublisher
+        taskClick.subscribeOn(AndroidSchedulers.mainThread()).observeOn(Schedulers.io()).subscribe {
+            Toast.makeText(context, String.format("Clicked: %d", it), Toast.LENGTH_SHORT).show()
+        }
 
         return root
     }
