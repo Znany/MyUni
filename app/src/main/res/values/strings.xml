@@ -7,4 +7,5 @@
     <string name="subject">Przedmiot:</string>
     <string name="until_when">Do kiedy:</string>
     <string name="no_tasks_found">Nie znaleziono zadań</string>
+    <string name="no_time_table">Brak planu zajęć</string>
 </resources>
