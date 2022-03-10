@@ -12,7 +12,7 @@ import com.hfad.myuni.ui.dataClass.Task
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var tasks = mutableListOf<Task>()
+    var tasks = mutableListOf<Task>()
 
     var taskClickPublisher: PublishSubject<Int> = PublishSubject.create()
 
@@ -44,10 +44,6 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return 1;
         }
         return tasks.size
-    }
-
-    fun setTaskList(tasks: MutableList<Task>){
-        this.tasks = tasks
     }
 
     override fun getItemViewType(position: Int): Int {
