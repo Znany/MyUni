@@ -65,7 +65,7 @@ class TasksFragment : Fragment() {
                 val dueDate = jsonArray.getJSONObject(i).getString("due_date")
                 val id = jsonArray.getJSONObject(i).getInt("id")
 
-                taskList.add(Task(subject, dueDate, description, header, id, false))
+                taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
             }
             adapter.tasks = taskList
             adapter.notifyDataSetChanged()
