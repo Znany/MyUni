@@ -16,6 +16,7 @@
         tools:targetApi="m">
         <activity
             android:name=".AddTaskActivity"
+            android:theme="@style/Theme.MyUni.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

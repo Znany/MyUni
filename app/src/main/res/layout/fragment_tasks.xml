@@ -8,6 +8,7 @@
     tools:context=".ui.tasks.TasksFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/tab_tasks_not_done"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -51,6 +52,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/tab_tasks_done"
         android:layout_width="match_parent"
         android:layout_height="55dp"

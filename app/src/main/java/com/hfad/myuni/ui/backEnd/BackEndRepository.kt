@@ -1,5 +1,6 @@
 package com.hfad.myuni.ui.backEnd
 
+import android.util.Log
 import io.reactivex.rxjava3.core.Observable
 import org.json.JSONObject
 import java.io.BufferedReader
