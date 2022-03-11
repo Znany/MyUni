@@ -15,23 +15,21 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var tasks = mutableListOf<Task>()
 
-    var taskClickPublisher: PublishSubject<Int> = PublishSubject.create()
+    var taskClickPublisher: PublishSubject<Task> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == 0){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
             EmptyTaskViewHolder(view)
-        } else if (viewType == 1){
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
-            TaskViewHolder(view)
-        } else{
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_done, parent, false)
+        } else {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
             TaskViewHolder(view)
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+       @SuppressLint("NotifyDataSetChanged")
+       override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
             Log.d("Adapter", String.format("lIST SIZE: %d", tasks.size))
             holder.subjectTextView.text = tasks[position].subject
@@ -39,10 +37,12 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
             holder.markAsDone.setOnClickListener {
+                notifyItemRemoved(position)
+                Log.d("Adapter", "Clicked $position")
                 tasks[position].isDone = true
-                sortTasks()
+                taskClickPublisher.onNext(tasks[position])
+                tasks.removeAt(position)
                 notifyDataSetChanged()
-                taskClickPublisher.onNext(position)
             }
         }
     }
@@ -58,33 +58,8 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if(tasks.size == 0){
             0
         } else{
-            if(tasks[position].isDone){
-                2
-            }
-            else{
-                1
-            }
+            1
         }
-    }
-
-    fun sortTasks(){
-        //Sort all tasks by date
-        var wasChagned = true
-        while (wasChagned){
-            wasChagned = false
-            for (i in 0 until tasks.size - 1){
-                if(tasks[i].date > tasks[i + 1].date){
-                    wasChagned = true
-                }
-            }
-        }
-
-        //Move tasks that are marked as done to the bottom
-        var i = 0
-        while (i < tasks.size){
-            i++
-        }
-
     }
 }
 

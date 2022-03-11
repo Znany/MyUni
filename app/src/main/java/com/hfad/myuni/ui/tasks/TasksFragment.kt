@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +33,8 @@ class TasksFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
     lateinit var taskDisposable: Disposable;
+    var isTasksTabCollapsed = false
+    var isCompletedTasksTabCollapsed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +51,53 @@ class TasksFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_tasks, container, false)
 
         val recyclerView: RecyclerView = root.findViewById(R.id.tasks_recycler)
+        val completedRecyclerView: RecyclerView = root.findViewById(R.id.tasks_done_recycler)
         val layoutManager = LinearLayoutManager(this.context)
+        val completedLayoutManager = LinearLayoutManager(this.context)
+        //This recycler starts as collapsed
+        completedRecyclerView.visibility = View.GONE
         val adapter = TasksAdapter()
+        val completedAdapter = TasksDoneAdapter()
         val backEndViewModel = BackEndViewModel(requireActivity().application)
 
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+        val tasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_not_done)
+        val completedTasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_done)
 
+
+        completedRecyclerView.layoutManager = completedLayoutManager
+        recyclerView.layoutManager  = layoutManager
+        recyclerView.adapter = adapter
+        completedRecyclerView.adapter = completedAdapter
+
+        //Collapse the view on click
+        tasksTab.setOnClickListener {
+            if(!isTasksTabCollapsed){
+                isTasksTabCollapsed = true
+                tasksTab.findViewById<ImageView>(R.id.tasks_arrow).setImageResource(R.drawable.arrow_facing_up)
+                recyclerView.visibility = View.GONE
+            }
+            else{
+                isTasksTabCollapsed = false
+                tasksTab.findViewById<ImageView>(R.id.tasks_arrow).setImageResource(R.drawable.arrow_facing_down)
+                recyclerView.visibility = View.VISIBLE
+            }
+        }
+
+        //Collapse the view on click
+        completedTasksTab.setOnClickListener {
+            if(isCompletedTasksTabCollapsed){
+                isCompletedTasksTabCollapsed = false
+                completedTasksTab.findViewById<ImageView>(R.id.tasks_done_arrow).setImageResource(R.drawable.arrow_facing_down)
+                completedRecyclerView.visibility = View.VISIBLE
+            }
+            else{
+                isCompletedTasksTabCollapsed = true
+                completedTasksTab.findViewById<ImageView>(R.id.tasks_done_arrow).setImageResource(R.drawable.arrow_facing_up)
+                completedRecyclerView.visibility = View.GONE
+            }
+        }
+
+        //Load data from the web server
         taskDisposable = backEndViewModel.getTasks().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe( {
             val jsonArray = it.getJSONArray("resultset")
             val taskList = mutableListOf<Task>()
@@ -68,7 +112,6 @@ class TasksFragment : Fragment() {
                 taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
             }
             adapter.tasks = taskList
-            adapter.sortTasks()
             adapter.notifyDataSetChanged()
         },
             {
@@ -76,10 +119,11 @@ class TasksFragment : Fragment() {
             }
         )
 
-
-        val taskClick: PublishSubject<Int> = adapter.taskClickPublisher
+        //If task is marked as done add it to the completedRecyclerView
+        val taskClick: PublishSubject<Task> = adapter.taskClickPublisher
         taskClick.subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            Toast.makeText(context, String.format("Clicked: %d", it), Toast.LENGTH_SHORT).show()
+            completedAdapter.tasksCompleted.add(it)
+            completedAdapter.notifyItemInserted(completedAdapter.tasksCompleted.size)
         }
 
         return root
@@ -95,16 +139,7 @@ class TasksFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
         private const val ARG_SECTION_NUMBER = "section_number"
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         @JvmStatic
         fun newInstance(sectionNumber: Int): TasksFragment {
             return TasksFragment().apply {
