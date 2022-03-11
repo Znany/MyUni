@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/task_done.xml" value="0.165" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-xxhdpi/item_tasks_background_done.xml" value="0.1705" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable/item_tasks_background.xml" value="0.1705" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/fragment_tasks.xml" value="0.1" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks.xml" value="0.264" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks_done.xml" value="0.264" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks_empty.xml" value="0.264" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks_loading.xml" value="0.20863616930312098" />
       </map>
     </option>
   </component>

@@ -14,6 +14,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var tasks = mutableListOf<Task>()
+    var hasDataLoaded = false
 
     var taskClickPublisher: PublishSubject<Task> = PublishSubject.create()
 
@@ -21,10 +22,15 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if(viewType == 0){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
             EmptyTaskViewHolder(view)
-        } else {
+        } else if (viewType == 1) {
             val view =
                 LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
             TaskViewHolder(view)
+        }
+        else{
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_loading, parent, false)
+            EmptyTaskViewHolder(view)
         }
     }
 
@@ -38,11 +44,11 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             holder.markAsDone.setOnClickListener {
                 notifyItemRemoved(position)
+                notifyItemRangeChanged(0, tasks.size)
                 Log.d("Adapter", "Clicked $position")
                 tasks[position].isDone = true
                 taskClickPublisher.onNext(tasks[position])
                 tasks.removeAt(position)
-                notifyDataSetChanged()
             }
         }
     }
@@ -55,7 +61,10 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(tasks.size == 0){
+        return if(!hasDataLoaded){
+            return -1
+        }
+        else if(tasks.size == 0){
             0
         } else{
             1
