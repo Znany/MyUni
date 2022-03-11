@@ -42,7 +42,6 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
-
             holder.markAsDone.setOnClickListener {
                 tasks[position].isDone = true
                 taskClickPublisher.onNext(tasks[position])

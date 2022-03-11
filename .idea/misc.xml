@@ -11,7 +11,8 @@
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/time_table.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-xxhdpi/item_tasks_background_done.xml" value="0.1705" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable/item_tasks_background.xml" value="0.1705" />
-        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/activity_main.xml" value="0.10342666109486001" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/activity_add_task.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/fragment_tasks.xml" value="0.264" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks.xml" value="0.264" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks_done.xml" value="0.264" />
@@ -21,7 +22,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
