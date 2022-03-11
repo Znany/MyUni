@@ -1,11 +1,14 @@
 package com.hfad.myuni.ui.tasks
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -69,32 +72,17 @@ class TasksFragment : Fragment() {
         recyclerView.adapter = adapter
         completedRecyclerView.adapter = completedAdapter
 
+        val tab = Tab(tasksTab, recyclerView, isTasksTabCollapsed, R.id.tasks_arrow)
+        val completedTab = Tab(completedTasksTab, completedRecyclerView, isCompletedTasksTabCollapsed, R.id.tasks_done_arrow)
+
         //Collapse the view on click
         tasksTab.setOnClickListener {
-            if(!isTasksTabCollapsed){
-                isTasksTabCollapsed = true
-                tasksTab.findViewById<ImageView>(R.id.tasks_arrow).setImageResource(R.drawable.arrow_facing_up)
-                recyclerView.visibility = View.GONE
-            }
-            else{
-                isTasksTabCollapsed = false
-                tasksTab.findViewById<ImageView>(R.id.tasks_arrow).setImageResource(R.drawable.arrow_facing_down)
-                recyclerView.visibility = View.VISIBLE
-            }
+            tab.onTabClick()
         }
 
         //Collapse the view on click
         completedTasksTab.setOnClickListener {
-            if(isCompletedTasksTabCollapsed){
-                isCompletedTasksTabCollapsed = false
-                completedTasksTab.findViewById<ImageView>(R.id.tasks_done_arrow).setImageResource(R.drawable.arrow_facing_down)
-                completedRecyclerView.visibility = View.VISIBLE
-            }
-            else{
-                isCompletedTasksTabCollapsed = true
-                completedTasksTab.findViewById<ImageView>(R.id.tasks_done_arrow).setImageResource(R.drawable.arrow_facing_up)
-                completedRecyclerView.visibility = View.GONE
-            }
+            completedTab.onTabClick()
         }
 
         //Load data from the web server
