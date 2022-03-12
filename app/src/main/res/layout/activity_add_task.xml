@@ -32,6 +32,7 @@
         <ImageButton
             android:id="@+id/add_task_confirm"
             android:background="@drawable/ok_sign"
+            android:visibility="invisible"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="15dp"
