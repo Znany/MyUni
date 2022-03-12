@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="date_picker">
+        <item name="colorAccent">@color/blue_primary_light</item>
+    </style>
+</resources>

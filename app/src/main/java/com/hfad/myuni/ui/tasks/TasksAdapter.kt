@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +44,7 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
             holder.markAsDone.setOnClickListener {
+                holder.markAsDone.setImageResource(R.drawable.task_done)
                 tasks[position].isDone = true
                 taskClickPublisher.onNext(tasks[position])
                 tasks.removeAt(position)
@@ -80,5 +82,5 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val subjectTextView: TextView = itemView.findViewById(R.id.item_tasks_subject)
     val shortDescriptionTextView: TextView = itemView.findViewById(R.id.item_tasks_short_description)
     val dateTextView: TextView = itemView.findViewById(R.id.item_tasks_date)
-    val markAsDone: ImageView = itemView.findViewById(R.id.item_tasks_mark_as_done)
+    val markAsDone: ImageButton = itemView.findViewById(R.id.item_tasks_mark_as_done)
 }

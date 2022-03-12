@@ -2,4 +2,5 @@
 <resources>
     <color name="gray">#3F3F3F</color>
     <color name="white_smoke">#939393</color>
+    <color name="edit_text_text_color">#FAFBFF</color>
 </resources>

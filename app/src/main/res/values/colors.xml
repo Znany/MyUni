@@ -10,4 +10,6 @@
     <color name="white_smoke">#D5D5D5</color>
     <color name="gray">#8C8C8C</color>
     <color name="dark_gray">#121212</color>
+    <color name="edit_text_text_color">#3663ff</color>
+    <color name="item_task_secondary_color">#D5D5D5</color>
 </resources>

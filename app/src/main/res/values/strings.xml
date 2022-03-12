@@ -8,5 +8,7 @@
     <string name="until_when">Do kiedy:</string>
     <string name="no_tasks_found">Nie znaleziono zadań</string>
     <string name="no_time_table">Brak planu zajęć</string>
-    <string name="completed_tasks">Zakończone</string>
+    <string name="completed_tasks">ZAKOŃCZONE</string>
+    <string name="tasks">ZADANIA</string>
+    <string name="due_date">Termin zakończenia</string>
 </resources>
