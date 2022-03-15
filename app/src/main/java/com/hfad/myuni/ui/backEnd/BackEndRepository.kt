@@ -17,7 +17,8 @@ class BackEndRepository {
         }
     }
 
-    fun addTask(groupId: Int, subjectId: Int, header: String, description: String, dueDate: String) : Observable<JSONObject>{
+    fun addTask(groupId: Int, subjectId: Int, header: String, description: String, dueDate: String) : Observable<Int>{
+        Log.d("Repo", String.format("Header: %s, description: %s, date: %s, subject_id: %s", header, description, dueDate, subjectId))
         return Observable.fromCallable {
             val url = URL(
                 "http://51.77.58.66/api.php?" +
@@ -26,9 +27,21 @@ class BackEndRepository {
                         "&&groupid=$groupId" +
                         "&&subject_id=$subjectId" +
                         "&&header=$header" +
-                        "description=$description" +
-                        "due_date=$dueDate")
-            urlConnectionToJSON(url, "GET")
+                        "&&description=$description" +
+                        "&&due_date=$dueDate")
+            with(url.openConnection() as HttpURLConnection){
+                Log.d("Repo", "Response: $responseMessage")
+                val stringBuffer = StringBuffer()
+                BufferedReader(InputStreamReader(inputStream)).use {
+                    var inputLine = it.readLine()
+                    while(inputLine != null){
+                        stringBuffer.append(inputLine)
+                        inputLine = it.readLine()
+                    }
+                }
+                requestMethod = "GET"
+                responseCode
+            }
         }
     }
 
