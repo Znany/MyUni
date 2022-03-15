@@ -15,4 +15,8 @@ class BackEndViewModel(application: Application) : AndroidViewModel(application)
     fun addTask(groupId: Int, subjectId: Int, header: String, description: String, dueDate: String) : Observable<JSONObject> {
         return backEndRepository.addTask(groupId, subjectId, header, description, dueDate)
     }
+
+    fun getSubjects(): Observable<JSONObject> {
+        return backEndRepository.getSubjects()
+    }
 }

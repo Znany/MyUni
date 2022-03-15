@@ -32,6 +32,13 @@ class BackEndRepository {
         }
     }
 
+    fun getSubjects(): Observable<JSONObject> {
+        return Observable.fromCallable {
+            val url = URL("http://51.77.58.66/api.php?option=subjects&&password=dupadupa321")
+            urlConnectionToJSON(url, "GET")
+        }
+    }
+
     private fun urlConnectionToJSON(url: URL, method: String): JSONObject{
         with(url.openConnection() as HttpURLConnection){
             requestMethod = method
