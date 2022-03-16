@@ -28,6 +28,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/time_table_recycler_pon"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/time_table_recycler_wt"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="15dp"
             tools:listitem="@layout/item_time_table"
             app:layout_constraintTop_toBottomOf="@+id/item_time_table_day_label_2"
@@ -78,6 +80,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/time_table_recycler_sr"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="15dp"
             tools:listitem="@layout/item_time_table"
             android:layout_width="match_parent"
@@ -104,6 +107,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/time_table_recycler_czw"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="15dp"
             tools:listitem="@layout/item_time_table"
             android:layout_width="match_parent"
@@ -130,6 +134,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/time_table_recycler_pt"
             android:layout_marginHorizontal="15dp"
+            android:nestedScrollingEnabled="false"
             android:paddingBottom="100dp"
             tools:listitem="@layout/item_time_table"
             android:layout_width="match_parent"
