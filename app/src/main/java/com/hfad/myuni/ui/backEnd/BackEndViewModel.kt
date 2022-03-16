@@ -19,4 +19,8 @@ class BackEndViewModel(application: Application) : AndroidViewModel(application)
     fun getSubjects(): Observable<JSONObject> {
         return backEndRepository.getSubjects()
     }
+
+    fun getTimeTable(): Observable<JSONObject> {
+        return backEndRepository.getTimeTable()
+    }
 }
