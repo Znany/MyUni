@@ -91,9 +91,11 @@ class TimeTableFragment : Fragment() {
                     val end: String = dayObj.getJSONObject(j).getString("time_end")
                     val start: String = dayObj.getJSONObject(j).getString("time_start")
                     val name: String = dayObj.getJSONObject(j).getString("name")
+                    val type: String = dayObj.getJSONObject(j).getString("lesson_type_name")
+                    val room: String = dayObj.getJSONObject(j).getString("room")
                     Log.d("TimeTable", String.format("name: %s, day: %d", name, i))
 
-                    subjectList.add(Subject(name, start, end))
+                    subjectList.add(Subject(String.format("%s (%s %s)", name, type, room), start, end))
                 }
                 Log.d("TimeTable", "f")
                 adapterList[i - 1].lectures = subjectList
