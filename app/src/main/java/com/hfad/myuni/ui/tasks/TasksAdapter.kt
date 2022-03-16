@@ -43,14 +43,17 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
+            if(!tasks[position].isDone){
+                holder.markAsDone.setImageResource(R.drawable.task_not_done_yet)
+            }
+
             holder.markAsDone.setOnClickListener {
+                Log.d("Adapter", "Clicked $position, item removed: ${tasks[position].shortDescription}, itemCount: ${tasks.size - 1}")
                 holder.markAsDone.setImageResource(R.drawable.task_done)
-                tasks[position].isDone = true
                 taskClickPublisher.onNext(tasks[position])
                 tasks.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, itemCount)
-                Log.d("Adapter", "Clicked $position")
             }
         }
     }
