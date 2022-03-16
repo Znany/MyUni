@@ -111,7 +111,6 @@ class TasksFragment : Fragment() {
         //If task is marked as done add it to the completedRecyclerView
         val taskClick: PublishSubject<Task> = adapter.taskClickPublisher
         taskClick.subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            it.isDone = true
             completedAdapter.tasksCompleted.add(it)
             completedAdapter.notifyItemInserted(completedAdapter.tasksCompleted.size)
         }

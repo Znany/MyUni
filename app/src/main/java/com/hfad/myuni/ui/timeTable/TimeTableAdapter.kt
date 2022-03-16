@@ -29,6 +29,9 @@ class TimeTableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.label.text = lectures[position].name
             holder.end.text = lectures[position].end.substring(0, 5)
             holder.start.text = lectures[position].start.substring(0, 5)
+            if(position == lectures.size - 1){
+                holder.bar.visibility = View.GONE
+            }
         }
     }
 
@@ -56,5 +59,6 @@ class TimeTableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val label: TextView = itemView.findViewById(R.id.item_subject_label)
         val end: TextView = itemView.findViewById(R.id.item_subject_ending_hour)
         val start: TextView = itemView.findViewById(R.id.item_subject_starting_hour)
+        val bar: View = itemView.findViewById(R.id.item_subject_bottom_bar)
     }
 }
