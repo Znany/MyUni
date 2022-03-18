@@ -1,18 +1,15 @@
 package com.hfad.myuni
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import com.hfad.myuni.ui.addTask.AddTaskActivity
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.main.ConnectionViewModel
@@ -34,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val backendViewModel = BackEndViewModel(application)
         val model: ConnectionViewModel by viewModels()
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             startActivity(Intent(this, AddTaskActivity::class.java))
         }
 

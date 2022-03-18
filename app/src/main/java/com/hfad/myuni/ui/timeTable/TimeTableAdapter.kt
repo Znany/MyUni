@@ -1,6 +1,5 @@
 package com.hfad.myuni.ui.timeTable
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,9 +48,7 @@ class TimeTableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class EmptyTimeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-    }
+    class EmptyTimeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     class TimeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val label: TextView = itemView.findViewById(R.id.item_subject_label)

@@ -2,17 +2,16 @@ package com.hfad.myuni.ui.timeTable
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Subject
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
@@ -101,7 +100,8 @@ class TimeTableFragment : Fragment() {
                     subjectList.add(Subject("$name ($type $room)", start, end))
                 }
                 adapterList[i - 1].lectures = subjectList
-                adapterList[i - 1].notifyDataSetChanged()
+                adapterList[i - 1].notifyItemRangeInserted(0, subjectList.size - 1)
+                //adapterList[i - 1].notifyDataSetChanged()
             }
         },
         {

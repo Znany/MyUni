@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
@@ -20,18 +19,21 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var taskClickPublisher: PublishSubject<Task> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if(viewType == 0){
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
-            EmptyTaskViewHolder(view)
-        } else if (viewType == 1) {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
-            TaskViewHolder(view)
-        }
-        else{
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_loading, parent, false)
-            EmptyTaskViewHolder(view)
+        return when (viewType) {
+            0 -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
+                EmptyTaskViewHolder(view)
+            }
+            1 -> {
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
+                TaskViewHolder(view)
+            }
+            else -> {
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_loading, parent, false)
+                EmptyTaskViewHolder(view)
+            }
         }
     }
 
@@ -56,7 +58,7 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
         if(tasks.size == 0){
-            return 1;
+            return 1
         }
         return tasks.size
     }
@@ -73,9 +75,7 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 }
 
-class EmptyTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-}
+class EmptyTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val subjectTextView: TextView = itemView.findViewById(R.id.item_tasks_subject)

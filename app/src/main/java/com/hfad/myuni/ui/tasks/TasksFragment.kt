@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,9 +25,9 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 class TasksFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
-    lateinit var taskDisposable: Disposable;
-    var isTasksTabCollapsed = false
-    var isCompletedTasksTabCollapsed = true
+    private lateinit var taskDisposable: Disposable
+    private var isTasksTabCollapsed = false
+    private var isCompletedTasksTabCollapsed = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,7 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 
-class Tab(var tab: ConstraintLayout, var recyclerView: RecyclerView, var isCollapsed: Boolean, var taskArrowId: Int) {
+class Tab(private var tab: ConstraintLayout, var recyclerView: RecyclerView, var isCollapsed: Boolean, private var taskArrowId: Int) {
     fun onTabClick(){
         if(isCollapsed){
             isCollapsed = false

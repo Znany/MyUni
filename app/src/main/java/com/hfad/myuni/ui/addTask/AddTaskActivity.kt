@@ -60,7 +60,7 @@ class AddTaskActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        editTextHeader.doOnTextChanged { text, start, before, count ->
+        editTextHeader.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
             }
@@ -69,7 +69,7 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
 
-        editTextDescription.doOnTextChanged { text, start, before, count ->
+        editTextDescription.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
             }
