@@ -23,9 +23,7 @@ class TimeTableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("Adapter", String.format("Lectures: %d", lectures.size))
         if(holder is TimeTableViewHolder){
-            Log.d("Adapter", String.format("name: %s", lectures[position].name))
             holder.label.text = lectures[position].name
             holder.end.text = lectures[position].end.substring(0, 5)
             holder.start.text = lectures[position].start.substring(0, 5)

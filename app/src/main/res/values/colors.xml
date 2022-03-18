@@ -12,4 +12,5 @@
     <color name="dark_gray">#121212</color>
     <color name="edit_text_text_color">#3663ff</color>
     <color name="item_task_secondary_color">#D5D5D5</color>
+    <color name="item_subject_secondary_color">#989898</color>
 </resources>

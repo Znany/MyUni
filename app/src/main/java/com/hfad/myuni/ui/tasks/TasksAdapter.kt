@@ -38,7 +38,6 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
        @SuppressLint("NotifyDataSetChanged")
        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
-            Log.d("Adapter", String.format("lIST SIZE: %d", tasks.size))
             holder.subjectTextView.text = tasks[position].subject
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription

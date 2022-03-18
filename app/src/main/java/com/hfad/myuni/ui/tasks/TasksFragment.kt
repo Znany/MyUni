@@ -1,37 +1,29 @@
 package com.hfad.myuni.ui.tasks
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Task
+import com.hfad.myuni.ui.main.ConnectionViewModel
 import com.hfad.myuni.ui.main.PageViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
-import org.json.JSONObject
 
-/**
- * A placeholder fragment containing a simple view.
- */
 class TasksFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
@@ -39,10 +31,10 @@ class TasksFragment : Fragment() {
     var isTasksTabCollapsed = false
     var isCompletedTasksTabCollapsed = true
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+        pageViewModel = ViewModelProvider(this)[PageViewModel::class.java].apply {
         }
     }
 
@@ -66,6 +58,7 @@ class TasksFragment : Fragment() {
         val tasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_not_done)
         val completedTasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_done)
 
+        val noConnectionWrapper: ConstraintLayout = root.findViewById(R.id.tasks_no_connection_wrapper)
 
         completedRecyclerView.layoutManager = completedLayoutManager
         recyclerView.layoutManager  = layoutManager
@@ -74,6 +67,34 @@ class TasksFragment : Fragment() {
 
         val tab = Tab(tasksTab, recyclerView, isTasksTabCollapsed, R.id.tasks_arrow)
         val completedTab = Tab(completedTasksTab, completedRecyclerView, isCompletedTasksTabCollapsed, R.id.tasks_done_arrow)
+
+        val model: ConnectionViewModel by activityViewModels()
+        model.getIsConnected().observe(viewLifecycleOwner) {
+            if(!it){
+                tasksTab.visibility = View.GONE
+                completedTasksTab.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                completedRecyclerView.visibility = View.GONE
+
+                noConnectionWrapper.visibility = View.VISIBLE
+            }
+            else{
+                tasksTab.visibility = View.VISIBLE
+                completedTasksTab.visibility = View.VISIBLE
+                if(!tab.isCollapsed){
+                    recyclerView.visibility = View.VISIBLE
+                }
+                if(!completedTab.isCollapsed){
+                    completedRecyclerView.visibility = View.VISIBLE
+                }
+
+                noConnectionWrapper.visibility = View.GONE
+            }
+
+            Log.d("Tasks", "Visibility: ${completedTasksTab.visibility}, View.GONE: ${View.GONE}, View.VISIBLE: ${View.VISIBLE}")
+            Log.d("Tasks", it.toString())
+        }
+
 
         //Collapse the view on click
         tasksTab.setOnClickListener {
@@ -130,10 +151,10 @@ class TasksFragment : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
         @JvmStatic
-        fun newInstance(sectionNumber: Int): TasksFragment {
+        fun newInstance(isConnected: Boolean): TasksFragment {
             return TasksFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                    putBoolean(ARG_SECTION_NUMBER, isConnected)
                 }
             }
         }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hfad.myuni">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".AddTaskActivity"
+            android:name=".ui.addTask.AddTaskActivity"
             android:theme="@style/Theme.MyUni.NoActionBar"
             android:exported="false" />
         <activity

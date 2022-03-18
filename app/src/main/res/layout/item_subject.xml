@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/item_subject_starting_hour"
-        android:textColor="@color/item_task_secondary_color"
+        android:textColor="@color/item_subject_secondary_color"
         android:gravity="center"
         android:text="8:00"
         android:layout_width="0dp"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/item_subject_ending_hour"
-        android:textColor="@color/item_task_secondary_color"
+        android:textColor="@color/item_subject_secondary_color"
         android:gravity="center"
         android:text="18:00"
         android:layout_width="0dp"

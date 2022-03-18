@@ -20,9 +20,11 @@ private val TAB_TITLES = arrayOf(
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
     : FragmentPagerAdapter(fm) {
 
+    var isConnected = false
+
     override fun getItem(position: Int): Fragment {
         return if(position == 0){
-            TasksFragment.newInstance(position + 1)
+            TasksFragment.newInstance(isConnected)
         } else{
             TimeTableFragment.newInstance("test", "test")
         }

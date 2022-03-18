@@ -58,6 +58,17 @@ class BackEndRepository {
         }
     }
 
+    fun checkInternetConnection(): Observable<Boolean> {
+        return Observable.fromCallable {
+            val url = URL("https://www.google.com/")
+            with(url.openConnection() as HttpURLConnection){
+                connectTimeout = 3000
+                requestMethod = "GET"
+                responseCode == 200
+            }
+        }
+    }
+
     private fun urlConnectionToJSON(url: URL, method: String): JSONObject{
         with(url.openConnection() as HttpURLConnection){
             requestMethod = method

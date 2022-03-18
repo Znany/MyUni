@@ -1,4 +1,4 @@
-package com.hfad.myuni
+package com.hfad.myuni.ui.addTask
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
+import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
