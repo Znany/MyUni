@@ -15,6 +15,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.LocalDate.now
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -108,6 +111,14 @@ class TimeTableFragment : Fragment() {
             Log.d("TimeTable", it.toString())
         }
         )
+
+        //Scroll to current day on the screen
+        val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+        if (currentDay <= 5){
+            root.post {
+                root.scrollTo(0, listRecycler[currentDay - 1].top)
+            }
+        }
 
         return root
     }
