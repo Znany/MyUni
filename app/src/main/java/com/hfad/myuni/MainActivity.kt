@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddTaskActivity::class.java))
         }
 
+        //This enables the viewPager to work with the swipeRefreshLayout
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -63,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         checkConnection()
-
 
         swipeRefreshLayout.setOnRefreshListener{
             checkConnection()

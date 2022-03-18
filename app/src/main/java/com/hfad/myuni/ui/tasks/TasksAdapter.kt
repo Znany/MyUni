@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
@@ -40,17 +41,22 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
        @SuppressLint("NotifyDataSetChanged")
        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
+            Log.d("Adapter", "Header: ${tasks[position].shortDescription}, position: $position, isDone: ${tasks[position].isDone}")
             holder.subjectTextView.text = tasks[position].subject
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
+            if(!tasks[position].isDone){
+                holder.markAsDone.setImageResource(R.drawable.task_not_done_yet)
+            }
+
             holder.markAsDone.setOnClickListener {
-                Log.d("Adapter", "Clicked $position, item removed: ${tasks[position].shortDescription}, itemCount: ${tasks.size - 1}")
+                //it.findViewById<ImageView>(R.id.item_tasks_mark_as_done).setImageResource(R.drawable.task_done)
                 tasks[position].isDone = true
                 holder.markAsDone.setImageResource(R.drawable.task_done)
+                notifyItemRemoved(position)
                 taskClickPublisher.onNext(tasks[position])
                 tasks.removeAt(position)
-                notifyItemRemoved(position)
                 notifyItemRangeChanged(position, itemCount)
             }
         }

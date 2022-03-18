@@ -66,17 +66,49 @@ class TasksFragment : Fragment() {
         val tab = Tab(tasksTab, recyclerView, isTasksTabCollapsed, R.id.tasks_arrow)
         val completedTab = Tab(completedTasksTab, completedRecyclerView, isCompletedTasksTabCollapsed, R.id.tasks_done_arrow)
 
+        //Load data from the web server
+        fun loadTasks() {
+            taskDisposable = backEndViewModel.getTasks().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe( {
+                val jsonArray = it.getJSONArray("resultset")
+                val taskList = mutableListOf<Task>()
+
+                for (i in 0 until jsonArray.length()){
+                    val subject  = jsonArray.getJSONObject(i).getString("name")
+                    val description = jsonArray.getJSONObject(i).getString("description")
+                    val header = jsonArray.getJSONObject(i).getString("header")
+                    val dueDate = jsonArray.getJSONObject(i).getString("due_date")
+                    val id = jsonArray.getJSONObject(i).getInt("id")
+
+                    taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
+                }
+                adapter.hasDataLoaded = true
+                adapter.tasks = taskList
+                adapter.notifyDataSetChanged()
+            },
+                {
+                    Log.d("TasksFragment", it.toString())
+                }
+            )
+        }
+
+        //On swipeRefreshLayout
         val model: ConnectionViewModel by activityViewModels()
         model.getIsConnected().observe(viewLifecycleOwner) {
             if(!it){
+                //Hide recycler views and tabs
                 tasksTab.visibility = View.GONE
                 completedTasksTab.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 completedRecyclerView.visibility = View.GONE
 
+                //Show no connection sign
                 noConnectionWrapper.visibility = View.VISIBLE
             }
             else{
+                //Load data for the main recycler
+                loadTasks()
+
+                //Show recycler views
                 tasksTab.visibility = View.VISIBLE
                 completedTasksTab.visibility = View.VISIBLE
                 if(!tab.isCollapsed){
@@ -86,11 +118,9 @@ class TasksFragment : Fragment() {
                     completedRecyclerView.visibility = View.VISIBLE
                 }
 
+                //Hide the tabs
                 noConnectionWrapper.visibility = View.GONE
             }
-
-            Log.d("Tasks", "Visibility: ${completedTasksTab.visibility}, View.GONE: ${View.GONE}, View.VISIBLE: ${View.VISIBLE}")
-            Log.d("Tasks", it.toString())
         }
 
 
@@ -104,28 +134,6 @@ class TasksFragment : Fragment() {
             completedTab.onTabClick()
         }
 
-        //Load data from the web server
-        taskDisposable = backEndViewModel.getTasks().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe( {
-            val jsonArray = it.getJSONArray("resultset")
-            val taskList = mutableListOf<Task>()
-
-            for (i in 0 until jsonArray.length()){
-                val subject  = jsonArray.getJSONObject(i).getString("name")
-                val description = jsonArray.getJSONObject(i).getString("description")
-                val header = jsonArray.getJSONObject(i).getString("header")
-                val dueDate = jsonArray.getJSONObject(i).getString("due_date")
-                val id = jsonArray.getJSONObject(i).getInt("id")
-
-                taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
-            }
-            adapter.hasDataLoaded = true
-            adapter.tasks = taskList
-            adapter.notifyDataSetChanged()
-        },
-            {
-                Log.d("TasksFragment", it.toString())
-            }
-        )
 
         //If task is marked as done add it to the completedRecyclerView
         val taskClick: PublishSubject<Task> = adapter.taskClickPublisher
