@@ -18,7 +18,6 @@ class BackEndRepository {
     }
 
     fun addTask(groupId: Int, subjectId: Int, header: String, description: String, dueDate: String) : Observable<Int>{
-        Log.d("Repo", String.format("Header: %s, description: %s, date: %s, subject_id: %s", header, description, dueDate, subjectId))
         return Observable.fromCallable {
             val url = URL(
                 "http://51.77.58.66/api.php?" +

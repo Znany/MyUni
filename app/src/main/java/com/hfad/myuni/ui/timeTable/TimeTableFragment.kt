@@ -81,7 +81,7 @@ class TimeTableFragment : Fragment() {
 
         val backendViewModel = BackEndViewModel(requireActivity().application)
 
-        backendViewModel.getTimeTable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe {
+        backendViewModel.getTimeTable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe ({
             val obj: JSONObject = it.getJSONObject("resultset")
             for (i in 1 until 6){
                 val dayObj: JSONArray = obj.getJSONArray(i.toString())
@@ -92,16 +92,22 @@ class TimeTableFragment : Fragment() {
                     val start: String = dayObj.getJSONObject(j).getString("time_start")
                     val name: String = dayObj.getJSONObject(j).getString("name")
                     val type: String = dayObj.getJSONObject(j).getString("lesson_type_name")
-                    val room: String = dayObj.getJSONObject(j).getString("room")
-                    Log.d("TimeTable", String.format("name: %s, day: %d", name, i))
+                    var room: String = dayObj.getJSONObject(j).getString("room")
 
-                    subjectList.add(Subject(String.format("%s (%s %s)", name, type, room), start, end))
+                    if (room == "0"){
+                        room = "Online"
+                    }
+
+                    subjectList.add(Subject("$name ($type $room)", start, end))
                 }
-                Log.d("TimeTable", "f")
                 adapterList[i - 1].lectures = subjectList
                 adapterList[i - 1].notifyDataSetChanged()
             }
+        },
+        {
+            Log.d("TimeTable", it.toString())
         }
+        )
 
         return root
     }

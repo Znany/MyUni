@@ -48,7 +48,9 @@ class AddTaskActivity : AppCompatActivity() {
             for (i in 0 until array.length()){
                 val name = array.getJSONObject(i).getString("name")
                 val id = array.getJSONObject(i).getString("subject_id")
-                subjectList.add(name)
+                val type = array.getJSONObject(i).getString("typ")
+
+                subjectList.add("$name ($type)")
                 Log.d("Id", "id_added $id")
                 subjectIdList.add(id)
             }
