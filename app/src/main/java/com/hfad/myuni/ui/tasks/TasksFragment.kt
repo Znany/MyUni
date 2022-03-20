@@ -72,8 +72,27 @@ class TasksFragment : Fragment() {
         val tab = Tab(tasksTab, recyclerView, isTasksTabCollapsed, R.id.tasks_arrow)
         val completedTab = Tab(completedTasksTab, completedRecyclerView, isCompletedTasksTabCollapsed, R.id.tasks_done_arrow)
 
-        //Load data from the web server
+        //Load data from the web server and localDatabase
         fun loadTasks() {
+            var hasDataFromWebServerLoaded = false
+            var hasDataFromLocalDatabaseLoaded = false
+
+            //Compare tasks in both recyclers and delete tasks that are equal
+            fun compareTasks(){
+                val tasks = adapter.tasks
+                val completedTasks = completedAdapter.tasksCompleted
+
+                var deletedTasks = 0
+                for (i in 0 until tasks.size - deletedTasks){
+                    for(completed in completedTasks){
+                        if (tasks[i].id == completed.id){
+                            tasks.removeAt(i)
+                            deletedTasks += 1
+                        }
+                    }
+                }
+            }
+
             taskDisposable = backEndViewModel.getTasks().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe( {
                 val jsonArray = it.getJSONArray("resultset")
                 val taskList = mutableListOf<Task>()
@@ -87,6 +106,12 @@ class TasksFragment : Fragment() {
 
                     taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
                 }
+
+                hasDataFromWebServerLoaded = true
+                if(hasDataFromLocalDatabaseLoaded){
+                    compareTasks()
+                }
+
                 adapter.hasDataLoaded = true
                 adapter.tasks = taskList
                 adapter.notifyDataSetChanged()
@@ -101,6 +126,12 @@ class TasksFragment : Fragment() {
                 launch {
                     val completedTasks =  localDB.tasksDao().getTasks()
                     completedAdapter.tasksCompleted = completedTasks.toMutableList()
+
+                    hasDataFromLocalDatabaseLoaded = true
+                    if(hasDataFromWebServerLoaded){
+                        compareTasks()
+                    }
+
                     completedAdapter.notifyItemRangeRemoved(0, completedAdapter.tasksCompleted.size)
                     completedAdapter.notifyItemRangeInserted(0, completedTasks.size)
                 }
@@ -139,7 +170,6 @@ class TasksFragment : Fragment() {
             }
         }
 
-
         //Collapse the view on click
         tasksTab.setOnClickListener {
             tab.onTabClick()
@@ -149,7 +179,6 @@ class TasksFragment : Fragment() {
         completedTasksTab.setOnClickListener {
             completedTab.onTabClick()
         }
-
 
         //If task is marked as done add it to the completedRecyclerView
         val taskClick: PublishSubject<Task> = adapter.taskClickPublisher
