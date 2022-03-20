@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Task
+import com.hfad.myuni.ui.localDatabase.DatabaseBuilder
 import com.hfad.myuni.ui.main.ConnectionViewModel
 import com.hfad.myuni.ui.main.PageViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class TasksFragment : Fragment() {
 
@@ -52,6 +55,9 @@ class TasksFragment : Fragment() {
         val adapter = TasksAdapter()
         val completedAdapter = TasksDoneAdapter()
         val backEndViewModel = BackEndViewModel(requireActivity().application)
+
+        val localDbBuilder = DatabaseBuilder()
+        val localDB = localDbBuilder.getDb(requireContext())
 
         val tasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_not_done)
         val completedTasksTab: ConstraintLayout = root.findViewById(R.id.tab_tasks_done)
@@ -89,6 +95,16 @@ class TasksFragment : Fragment() {
                     Log.d("TasksFragment", it.toString())
                 }
             )
+
+            //Get completed tasks from the database and insert them into the adapter
+            runBlocking {
+                launch {
+                    val completedTasks =  localDB.tasksDao().getTasks()
+                    completedAdapter.tasksCompleted = completedTasks.toMutableList()
+                    completedAdapter.notifyItemRangeRemoved(0, completedAdapter.tasksCompleted.size)
+                    completedAdapter.notifyItemRangeInserted(0, completedTasks.size)
+                }
+            }
         }
 
         //On swipeRefreshLayout
@@ -138,6 +154,11 @@ class TasksFragment : Fragment() {
         //If task is marked as done add it to the completedRecyclerView
         val taskClick: PublishSubject<Task> = adapter.taskClickPublisher
         taskClick.subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            runBlocking {
+                launch {
+                    localDB.tasksDao().insert(it)
+                }
+            }
             completedAdapter.tasksCompleted.add(it)
             completedAdapter.notifyItemInserted(completedAdapter.tasksCompleted.size)
         }
