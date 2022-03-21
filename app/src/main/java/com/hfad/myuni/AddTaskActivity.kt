@@ -1,5 +1,6 @@
 package com.hfad.myuni
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
+import com.hfad.myuni.ui.main.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONArray
@@ -43,7 +45,6 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         backendViewModel.getSubjects().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe {
-
             val array: JSONArray = it.getJSONArray("resultset")
             for (i in 0 until array.length()){
                 val name = array.getJSONObject(i).getString("name")
@@ -79,6 +80,8 @@ class AddTaskActivity : AppCompatActivity() {
             backendViewModel.addTask(3, getIdByName(spinner.selectedItem.toString()), editTextHeader.text.toString(), editTextDescription.text.toString(), getDate(datePicker.dayOfMonth.toString(), datePicker.month.toString(), datePicker.year.toString())).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe ({
                 if(it == 200){
                     Toast.makeText(application, "Dodano taska", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 }
             },
                 {
