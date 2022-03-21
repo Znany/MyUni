@@ -1,11 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
 }
 
 android {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     compileSdkVersion 31
-    buildToolsVersion "30.0.0"
 
     defaultConfig {
         multiDexEnabled true
@@ -24,17 +27,24 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
 }
+
+
 
 dependencies {
     def room_version = "2.4.2"
     apply plugin: 'kotlin-kapt'
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    //implementation "androidx.lifecycle:lifecycleviewmodel:2.2.0"
+    implementation "androidx.core:core-ktx:$kotlin_version"
+
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
@@ -43,11 +53,12 @@ dependencies {
     implementation "androidx.room:room-rxjava3:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
 
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
