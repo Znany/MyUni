@@ -2,31 +2,30 @@ package com.hfad.myuni.ui.timeTable
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Subject
+import com.hfad.myuni.ui.main.ConnectionViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.LocalDate.now
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TimeTableFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TimeTableFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -81,25 +80,66 @@ class TimeTableFragment : Fragment() {
 
         val backendViewModel = BackEndViewModel(requireActivity().application)
 
-        backendViewModel.getTimeTable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe {
-            val obj: JSONObject = it.getJSONObject("resultset")
-            for (i in 1 until 6){
-                val dayObj: JSONArray = obj.getJSONArray(i.toString())
+        //Load TimeTable from the web server
+        fun loadData() {
 
-                val subjectList: ArrayList<Subject> = ArrayList()
-                for (j in 0 until dayObj.length()){
-                    val end: String = dayObj.getJSONObject(j).getString("time_end")
-                    val start: String = dayObj.getJSONObject(j).getString("time_start")
-                    val name: String = dayObj.getJSONObject(j).getString("name")
-                    val type: String = dayObj.getJSONObject(j).getString("lesson_type_name")
-                    val room: String = dayObj.getJSONObject(j).getString("room")
-                    Log.d("TimeTable", String.format("name: %s, day: %d", name, i))
+            backendViewModel.getTimeTable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe ({
+                val obj: JSONObject = it.getJSONObject("resultset")
+                for (i in 1 until 6){
+                    val dayObj: JSONArray = obj.getJSONArray(i.toString())
 
-                    subjectList.add(Subject(String.format("%s (%s %s)", name, type, room), start, end))
+                    val subjectList: ArrayList<Subject> = ArrayList()
+                    for (j in 0 until dayObj.length()){
+                        val end: String = dayObj.getJSONObject(j).getString("time_end")
+                        val start: String = dayObj.getJSONObject(j).getString("time_start")
+                        val name: String = dayObj.getJSONObject(j).getString("name")
+                        val type: String = dayObj.getJSONObject(j).getString("lesson_type_name")
+                        var room: String = dayObj.getJSONObject(j).getString("room")
+
+                        if (room == "0"){
+                            room = "Online"
+                        }
+
+                        subjectList.add(Subject("$name ($type $room)", start, end))
+                    }
+                    adapterList[i - 1].notifyItemRangeRemoved(0, adapterList[i - 1].lectures.size)
+                    adapterList[i - 1].lectures = subjectList
+                    adapterList[i - 1].notifyItemRangeInserted(0, subjectList.size - 1)
+                    //adapterList[i - 1].notifyDataSetChanged()
                 }
-                Log.d("TimeTable", "f")
-                adapterList[i - 1].lectures = subjectList
-                adapterList[i - 1].notifyDataSetChanged()
+            },
+                {
+                    Log.d("TimeTable", it.toString())
+                }
+            )
+
+        }
+
+        loadData()
+
+        //On swipeRefreshLayout
+        val model: ConnectionViewModel by activityViewModels()
+        model.getIsConnected().observe(viewLifecycleOwner){
+            if(!it){
+                for (recycler in listRecycler){
+                    recycler.visibility = View.GONE
+                }
+            }
+            else{
+
+                loadData()
+                for (recycler in listRecycler){
+                    recycler.visibility = View.VISIBLE
+                }
+            }
+
+        }
+
+        //Scroll to current day on the screen
+        val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+        if (currentDay <= 5){
+            root.post {
+                root.scrollTo(0, listRecycler[currentDay - 1].top)
             }
         }
 
@@ -107,14 +147,6 @@ class TimeTableFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TimeTableFragment.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

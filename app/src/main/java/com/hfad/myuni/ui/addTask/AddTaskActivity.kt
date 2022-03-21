@@ -1,4 +1,4 @@
-package com.hfad.myuni
+package com.hfad.myuni.ui.addTask
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
+import com.hfad.myuni.R
 import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.main.MainActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -49,7 +50,9 @@ class AddTaskActivity : AppCompatActivity() {
             for (i in 0 until array.length()){
                 val name = array.getJSONObject(i).getString("name")
                 val id = array.getJSONObject(i).getString("subject_id")
-                subjectList.add(name)
+                val type = array.getJSONObject(i).getString("typ")
+
+                subjectList.add("$name ($type)")
                 Log.d("Id", "id_added $id")
                 subjectIdList.add(id)
             }
@@ -58,7 +61,7 @@ class AddTaskActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        editTextHeader.doOnTextChanged { text, start, before, count ->
+        editTextHeader.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
             }
@@ -67,7 +70,7 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
 
-        editTextDescription.doOnTextChanged { text, start, before, count ->
+        editTextDescription.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
             }

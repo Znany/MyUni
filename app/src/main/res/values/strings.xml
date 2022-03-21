@@ -12,4 +12,5 @@
     <string name="tasks">ZADANIA</string>
     <string name="due_date">Termin zakończenia</string>
     <string name="add_task">Dodaj zadanie</string>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
 </resources>

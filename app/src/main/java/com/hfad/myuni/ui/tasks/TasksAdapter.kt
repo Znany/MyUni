@@ -20,36 +20,42 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var taskClickPublisher: PublishSubject<Task> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if(viewType == 0){
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
-            EmptyTaskViewHolder(view)
-        } else if (viewType == 1) {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
-            TaskViewHolder(view)
-        }
-        else{
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_loading, parent, false)
-            EmptyTaskViewHolder(view)
+        return when (viewType) {
+            0 -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_empty, parent, false)
+                EmptyTaskViewHolder(view)
+            }
+            1 -> {
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_tasks, parent, false)
+                TaskViewHolder(view)
+            }
+            else -> {
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_tasks_loading, parent, false)
+                EmptyTaskViewHolder(view)
+            }
         }
     }
 
        @SuppressLint("NotifyDataSetChanged")
        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is TaskViewHolder){
-            Log.d("Adapter", String.format("lIST SIZE: %d", tasks.size))
             holder.subjectTextView.text = tasks[position].subject
             holder.dateTextView.text = tasks[position].date
             holder.shortDescriptionTextView.text = tasks[position].shortDescription
 
+            if(!tasks[position].isDone){
+                holder.markAsDone.setImageResource(R.drawable.task_not_done_yet)
+            }
+
             holder.markAsDone.setOnClickListener {
-                Log.d("Adapter", "Clicked $position, item removed: ${tasks[position].shortDescription}, itemCount: ${tasks.size - 1}")
+                //it.findViewById<ImageView>(R.id.item_tasks_mark_as_done).setImageResource(R.drawable.task_done)
                 tasks[position].isDone = true
                 holder.markAsDone.setImageResource(R.drawable.task_done)
+                notifyItemRemoved(position)
                 taskClickPublisher.onNext(tasks[position])
                 tasks.removeAt(position)
-                notifyItemRemoved(position)
                 notifyItemRangeChanged(position, itemCount)
             }
         }
@@ -57,7 +63,7 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
         if(tasks.size == 0){
-            return 1;
+            return 1
         }
         return tasks.size
     }
@@ -74,9 +80,7 @@ class TasksAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 }
 
-class EmptyTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-}
+class EmptyTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val subjectTextView: TextView = itemView.findViewById(R.id.item_tasks_subject)

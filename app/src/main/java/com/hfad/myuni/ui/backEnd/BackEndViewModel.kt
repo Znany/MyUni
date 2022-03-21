@@ -23,4 +23,8 @@ class BackEndViewModel(application: Application) : AndroidViewModel(application)
     fun getTimeTable(): Observable<JSONObject> {
         return backEndRepository.getTimeTable()
     }
+
+    fun getInternetConnection(): Observable<Boolean>{
+        return backEndRepository.checkInternetConnection()
+    }
 }

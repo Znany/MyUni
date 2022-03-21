@@ -7,7 +7,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.concurrent.Callable
 
 class BackEndRepository {
     fun getTasks() : Observable<JSONObject> {
@@ -18,7 +17,6 @@ class BackEndRepository {
     }
 
     fun addTask(groupId: Int, subjectId: Int, header: String, description: String, dueDate: String) : Observable<Int>{
-        Log.d("Repo", String.format("Header: %s, description: %s, date: %s, subject_id: %s", header, description, dueDate, subjectId))
         return Observable.fromCallable {
             val url = URL(
                 "http://51.77.58.66/api.php?" +
@@ -56,6 +54,17 @@ class BackEndRepository {
         return Observable.fromCallable {
             val url = URL("http://51.77.58.66/api.php?option=timetable&&password=dupadupa321")
             urlConnectionToJSON(url, "GET")
+        }
+    }
+
+    fun checkInternetConnection(): Observable<Boolean> {
+        return Observable.fromCallable {
+            val url = URL("https://www.google.com/")
+            with(url.openConnection() as HttpURLConnection){
+                connectTimeout = 3000
+                requestMethod = "GET"
+                responseCode == 200
+            }
         }
     }
 

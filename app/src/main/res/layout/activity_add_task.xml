@@ -52,7 +52,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".AddTaskActivity">
+            tools:context=".ui.addTask.AddTaskActivity">
             <TextView
                 android:id="@+id/textView5"
                 android:text="Przedmiot"
