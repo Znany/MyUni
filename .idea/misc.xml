@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.2145" />
+        <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.2145" />
+        <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable/edit_text_background.xml" value="0.2145" />
+        <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable/time_table_label_background.xml" value="0.324" />
         <entry key="..\:/JAVA/MyUni/app/src/main/res/layout/fragment_time_table.xml" value="0.17831813576494426" />
+        <entry key="..\:/JAVA/MyUni/app/src/main/res/layout/time_table_widget.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/arrow_facing_down.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/arrow_facing_up.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/assignment.xml" value="0.108" />

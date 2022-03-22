@@ -143,7 +143,6 @@ class TimeTableFragment : Fragment() {
 
         }
 
-
         //On swipeRefreshLayout
         val model: ConnectionViewModel by activityViewModels()
         model.getIsConnected().observe(viewLifecycleOwner){ isConnected ->

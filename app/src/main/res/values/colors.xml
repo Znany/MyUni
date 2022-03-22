@@ -13,4 +13,8 @@
     <color name="edit_text_text_color">#3663ff</color>
     <color name="item_task_secondary_color">#D5D5D5</color>
     <color name="item_subject_secondary_color">#989898</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 </resources>

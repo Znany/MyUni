@@ -15,10 +15,25 @@
         android:theme="@style/Theme.MyUni"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <receiver
+            android:name=".ui.widget.TimeTableWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/time_table_widget_info" />
+        </receiver>
+
+        <service android:name=".ui.widget.TimeTableWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <activity
             android:name=".ui.addTask.AddTaskActivity"
-            android:theme="@style/Theme.MyUni.NoActionBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MyUni.NoActionBar" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
