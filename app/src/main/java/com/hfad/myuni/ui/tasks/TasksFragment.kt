@@ -77,19 +77,24 @@ class TasksFragment : Fragment() {
             var hasDataFromWebServerLoaded = false
             var hasDataFromLocalDatabaseLoaded = false
 
-            //Compare tasks in both recyclers and delete tasks that are equal
+            //Compare tasks in both recyclers and delete tasks from main recycler that are equal
             fun compareTasks(){
                 val tasks = adapter.tasks
                 val completedTasks = completedAdapter.tasksCompleted
+                val tasksToRemove: ArrayList<Task> = ArrayList()
 
-                var deletedTasks = 0
-                for (i in 0 until tasks.size - deletedTasks){
+                for (i in 0 until tasks.size){
                     for(completed in completedTasks){
+                        Log.d("Compare", "Task_id: ${tasks[i].id}, Completed_id: ${completed.id}")
                         if (tasks[i].id == completed.id){
-                            tasks.removeAt(i)
-                            deletedTasks += 1
+                            Log.d("Task", "Removed")
+                            tasksToRemove.add(tasks[i])
                         }
                     }
+                }
+
+                for (task in tasksToRemove){
+                    tasks.remove(task)
                 }
             }
 
@@ -106,14 +111,14 @@ class TasksFragment : Fragment() {
 
                     taskList.add(Task(subject, dueDate.substring(0, 10).replace("-", "."), description, header, id, false))
                 }
+                adapter.hasDataLoaded = true
+                adapter.tasks = taskList
 
                 hasDataFromWebServerLoaded = true
                 if(hasDataFromLocalDatabaseLoaded){
                     compareTasks()
                 }
 
-                adapter.hasDataLoaded = true
-                adapter.tasks = taskList
                 adapter.notifyDataSetChanged()
             },
                 {
@@ -124,16 +129,16 @@ class TasksFragment : Fragment() {
             //Get completed tasks from the database and insert them into the adapter
             runBlocking {
                 launch {
-                    val completedTasks =  localDB.tasksDao().getTasks()
+                    val completedTasks =  localDB.databaseDao().getTasks()
                     completedAdapter.tasksCompleted = completedTasks.toMutableList()
+
+                    completedAdapter.notifyItemRangeRemoved(0, completedAdapter.tasksCompleted.size)
+                    completedAdapter.notifyItemRangeInserted(0, completedTasks.size)
 
                     hasDataFromLocalDatabaseLoaded = true
                     if(hasDataFromWebServerLoaded){
                         compareTasks()
                     }
-
-                    completedAdapter.notifyItemRangeRemoved(0, completedAdapter.tasksCompleted.size)
-                    completedAdapter.notifyItemRangeInserted(0, completedTasks.size)
                 }
             }
         }
@@ -185,7 +190,7 @@ class TasksFragment : Fragment() {
         taskClick.subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe {
             runBlocking {
                 launch {
-                    localDB.tasksDao().insert(it)
+                    localDB.databaseDao().insert(it)
                 }
             }
             completedAdapter.tasksCompleted.add(it)
