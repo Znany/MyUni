@@ -12,14 +12,16 @@
         android:padding="5dp"
         android:gravity="center"
         android:textColor="@color/white"
-        android:background="@drawable/time_table_label_background"
+        android:background="@drawable/app_widget_label_background"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginBottom="5dp">
     </TextView>
 
     <ListView
-        tools:listitem="@layout/item_time_table"
+        android:id="@+id/widget_subject_list"
+        android:layout_margin="5dp"
+        tools:listitem="@layout/item_widget"
         android:layout_below="@id/widget_subject_text"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">

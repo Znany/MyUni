@@ -27,4 +27,8 @@ class BackEndViewModel(application: Application) : AndroidViewModel(application)
     fun getInternetConnection(): Observable<Boolean>{
         return backEndRepository.checkInternetConnection()
     }
+
+    fun getCurrentSubjects(): Observable<JSONObject>{
+        return backEndRepository.getCurrentSubjects()
+    }
 }
