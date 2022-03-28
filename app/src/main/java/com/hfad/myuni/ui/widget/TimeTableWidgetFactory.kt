@@ -1,55 +1,74 @@
 package com.hfad.myuni.ui.widget
 
+import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.hfad.myuni.R
+import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Subject
+import org.json.JSONArray
 
-class TimeTableWidgetFactory(private val context: Context): RemoteViewsService.RemoteViewsFactory {
-    var subjectList: ArrayList<Subject> = ArrayList()
+class TimeTableWidgetFactory(private val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory{
+    private var subjects: ArrayList<Subject> = ArrayList()
+    private var backendViewModel: BackEndViewModel? = null
 
     override fun onCreate() {
-        val first = Subject(1, "Bazy Danych", "9:00", "10:00", 4)
-        val second = Subject(1, "Warsztat programisty", "11:00", "12:00", 4)
-        subjectList.add(first)
-        subjectList.add(second)
-        TODO("Not yet implemented")
+        backendViewModel = BackEndViewModel(context.applicationContext as Application)
     }
 
     override fun onDataSetChanged() {
-        TODO("Not yet implemented")
+        loadData()
     }
 
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
+    override fun onDestroy() {subjects.clear()}
 
     override fun getCount(): Int {
-        return subjectList.size
+        Log.d("Widget", "getCount: ${subjects.size}")
+        return subjects.size
     }
 
-    override fun getViewAt(position: Int): RemoteViews {
-        return RemoteViews(context.packageName, R.layout.item_subject).apply{
-            setTextViewText(R.id.item_subject_label, subjectList[position].name)
-            setTextViewText(R.id.item_subject_starting_hour, subjectList[position].start)
-            setTextViewText(R.id.item_subject_ending_hour, subjectList[position].end)
+    override fun getViewAt(p0: Int): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.item_widget).apply {
+            setTextViewText(R.id.widget_item_label, subjects[p0].name)
+            setTextViewText(R.id.widget_item_start, subjects[p0].start)
+            setTextViewText(R.id.widget_item_end, subjects[p0].end)
         }
     }
 
     override fun getLoadingView(): RemoteViews {
-        TODO("Not yet implemented")
+        return RemoteViews(context.packageName, R.layout.item_widget_loading)
     }
 
     override fun getViewTypeCount(): Int {
-        TODO("Not yet implemented")
+        return 1
     }
 
-    override fun getItemId(position: Int): Long {
-        TODO("Not yet implemented")
+    override fun getItemId(p0: Int): Long {
+        return subjects[p0].id.toLong()
     }
 
     override fun hasStableIds(): Boolean {
-        TODO("Not yet implemented")
+        return true
+    }
+
+    private fun loadData(){
+        val it = backendViewModel!!.getCurrentSubjects().blockingFirst()
+
+        //subjects.add(Subject(0, "Bazy Danych", "9:00", "12:00", 1))
+        //subjects.add(Subject(1, "Warsztat programisty", "13:00", "15:00", 1))
+        Log.d("Widget", it.toString())
+        val array: JSONArray = it.getJSONArray("resultset")
+        val list: ArrayList<Subject> = ArrayList()
+        for (i in 0 until array.length()){
+            val name = array.getJSONObject(i).getString("name")
+            val start = array.getJSONObject(i).getString("time_start").substring(0, 5)
+            val end = array.getJSONObject(i).getString("time_end").substring(0, 5)
+            Log.d("Widget", "$name, $start, $end")
+            list.add(Subject(i, name, start, end, 0))
+        }
+        subjects = list
     }
 }

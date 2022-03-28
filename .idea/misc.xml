@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.2145" />
         <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.2145" />
         <entry key="..\:/JAVA/MyUni/app/src/main/res/drawable/edit_text_background.xml" value="0.2145" />
@@ -11,6 +12,8 @@
         <entry key="..\:/JAVA/MyUni/app/src/main/res/layout/item_subject.xml" value="0.17806484295845998" />
         <entry key="..\:/JAVA/MyUni/app/src/main/res/layout/item_time_table.xml" value="0.15896739130434784" />
         <entry key="..\:/JAVA/MyUni/app/src/main/res/layout/time_table_widget.xml" value="0.36666666666666664" />
+=======
+>>>>>>> 361f7b92d9dee2f35bb8c03b43e6b22331bb9300
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/arrow_facing_down.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/arrow_facing_up.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/assignment.xml" value="0.108" />
@@ -18,7 +21,9 @@
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/plus_sign.xml" value="0.108" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/task_done.xml" value="0.165" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-anydpi/time_table.xml" value="0.108" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.1" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable-xxhdpi/item_tasks_background_done.xml" value="0.1705" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable/app_widget_label_background.xml" value="0.1" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable/edit_text_background.xml" value="0.1" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/drawable/item_tasks_background.xml" value="0.1705" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/activity_add_task.xml" value="0.264" />
@@ -34,6 +39,9 @@
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_tasks_loading.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_time_table.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_time_table_empty.xml" value="0.17633726201269265" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_widget.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/item_widget_loading.xml" value="0.2" />
+        <entry key="..\:/Users/lukas/StudioProjects/MyUni/app/src/main/res/layout/time_table_widget.xml" value="0.20863616930312098" />
       </map>
     </option>
   </component>

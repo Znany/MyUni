@@ -57,6 +57,13 @@ class BackEndRepository {
         }
     }
 
+    fun getCurrentSubjects(): Observable<JSONObject> {
+        return Observable.fromCallable {
+            val url = URL("http://51.77.58.66/api.php?password=dupadupa321&option=widget")
+            urlConnectionToJSON(url, "GET")
+        }
+    }
+
     fun checkInternetConnection(): Observable<Boolean> {
         return Observable.fromCallable {
             val url = URL("https://www.google.com/")
