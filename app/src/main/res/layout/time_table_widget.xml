@@ -19,7 +19,7 @@
     </TextView>
 
     <ListView
-        tools:listitem="@layout/item_time_table"
+        tools:listitem="@layout/item_subject"
         android:layout_below="@id/widget_subject_text"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
