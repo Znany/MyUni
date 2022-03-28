@@ -13,6 +13,8 @@ import org.json.JSONArray
 
 class TimeTableWidgetFactory(private val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory{
     private var subjects: ArrayList<Subject> = ArrayList()
+    private var subjectsHelperRoom: ArrayList<String> = ArrayList()
+    private var subjectsHelperType: ArrayList<String> = ArrayList()
     private var backendViewModel: BackEndViewModel? = null
 
     override fun onCreate() {
@@ -35,6 +37,7 @@ class TimeTableWidgetFactory(private val context: Context, intent: Intent) : Rem
             setTextViewText(R.id.widget_item_label, subjects[p0].name)
             setTextViewText(R.id.widget_item_start, subjects[p0].start)
             setTextViewText(R.id.widget_item_end, subjects[p0].end)
+            setTextViewText(R.id.widget_item_bottom_label, "${subjectsHelperRoom[p0]} (${subjectsHelperType[p0]})")
         }
     }
 
@@ -62,13 +65,21 @@ class TimeTableWidgetFactory(private val context: Context, intent: Intent) : Rem
         Log.d("Widget", it.toString())
         val array: JSONArray = it.getJSONArray("resultset")
         val list: ArrayList<Subject> = ArrayList()
+        val roomList: ArrayList<String> = ArrayList()
+        val typeList: ArrayList<String> = ArrayList()
         for (i in 0 until array.length()){
             val name = array.getJSONObject(i).getString("name")
             val start = array.getJSONObject(i).getString("time_start").substring(0, 5)
             val end = array.getJSONObject(i).getString("time_end").substring(0, 5)
+            val room = array.getJSONObject(i).getString("room")
+            val type = array.getJSONObject(i).getString("lesson_type_name")
             Log.d("Widget", "$name, $start, $end")
             list.add(Subject(i, name, start, end, 0))
+            roomList.add(room)
+            typeList.add(type)
         }
+        subjectsHelperType = typeList
+        subjectsHelperRoom = roomList
         subjects = list
     }
 }
