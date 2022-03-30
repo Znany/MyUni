@@ -85,9 +85,7 @@ class TasksFragment : Fragment() {
 
                 for (i in 0 until tasks.size){
                     for(completed in completedTasks){
-                        Log.d("Compare", "Task_id: ${tasks[i].id}, Completed_id: ${completed.id}")
                         if (tasks[i].id == completed.id){
-                            Log.d("Task", "Removed")
                             tasksToRemove.add(tasks[i])
                         }
                     }

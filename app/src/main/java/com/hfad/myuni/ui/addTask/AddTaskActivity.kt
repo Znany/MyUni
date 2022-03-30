@@ -61,6 +61,7 @@ class AddTaskActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
+        //Show add button only when both editText fields are not empty
         editTextHeader.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
@@ -70,6 +71,7 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
 
+        //Show add button only when both editText fields are not empty
         editTextDescription.doOnTextChanged { _, _, _, _ ->
             if(!areViewsEmpty()){
                 addTaskButton.visibility = View.VISIBLE
@@ -95,7 +97,10 @@ class AddTaskActivity : AppCompatActivity() {
 
     private fun getDate(day: String, month: String, year: String): String{
         var formattedDay = day
-        var formattedMonth = month
+
+        //java Calendar month's index starts from 0 (lol) so we have to add 1
+        val tempMonth = month.toInt() + 1
+        var formattedMonth = tempMonth.toString()
         if(day.length == 1){
             formattedDay = "0$day"
         }
@@ -105,7 +110,7 @@ class AddTaskActivity : AppCompatActivity() {
         val stringBuffer = StringBuffer()
         val sdf = SimpleDateFormat("hh:mm:ss")
         val currentDate = sdf.format(Date())
-        stringBuffer.append(year).append("-").append(formattedMonth).append("-").append(formattedDay).append(" ").append(currentDate)
+        stringBuffer.append(year).append("-").append(formattedMonth).append("-").append(formattedDay).append("%20").append(currentDate)
         return stringBuffer.toString()
     }
 }

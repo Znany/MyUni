@@ -5,24 +5,54 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.MyUni.AppWidgetContainer">
 
-    <TextView
-        android:id="@+id/widget_subject_text"
-        android:text="Wtorek"
-        android:textSize="21sp"
-        android:padding="5dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:background="@drawable/app_widget_label_background"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/widget_label"
         android:layout_width="match_parent"
-        android:layout_marginBottom="5dp">
-    </TextView>
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_widget_label_background">
+
+        <ImageView
+            android:id="@+id/widget_label_arrow_back"
+            android:background="@drawable/arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="35dp"
+            android:layout_centerVertical="true">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/widget_subject_text"
+            android:text="Dzień tygodnia"
+            android:textSize="21sp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/widget_label_arrow_forward"
+            android:background="@drawable/arrow_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35dp"
+            android:layout_centerVertical="true">
+        </ImageView>
+
+    </RelativeLayout>
+
+
 
     <ListView
         android:id="@+id/widget_subject_list"
         android:layout_margin="5dp"
         tools:listitem="@layout/item_widget"
-        android:layout_below="@id/widget_subject_text"
+        android:layout_below="@id/widget_label"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
     </ListView>

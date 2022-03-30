@@ -27,6 +27,7 @@ class BackEndRepository {
                         "&&header=$header" +
                         "&&description=$description" +
                         "&&due_date=$dueDate")
+            Log.d("Add Task", url.toString())
             with(url.openConnection() as HttpURLConnection){
                 Log.d("Repo", "Response: $responseMessage")
                 val stringBuffer = StringBuffer()

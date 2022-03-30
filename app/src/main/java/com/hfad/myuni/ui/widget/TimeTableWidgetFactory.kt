@@ -22,13 +22,13 @@ class TimeTableWidgetFactory(private val context: Context, intent: Intent) : Rem
     }
 
     override fun onDataSetChanged() {
+        Log.d("Widget", "onDataSetChanged")
         loadData()
     }
 
     override fun onDestroy() {subjects.clear()}
 
     override fun getCount(): Int {
-        Log.d("Widget", "getCount: ${subjects.size}")
         return subjects.size
     }
 
