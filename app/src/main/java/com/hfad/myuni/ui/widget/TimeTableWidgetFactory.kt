@@ -11,19 +11,22 @@ import com.hfad.myuni.ui.backEnd.BackEndViewModel
 import com.hfad.myuni.ui.dataClass.Subject
 import org.json.JSONArray
 
-class TimeTableWidgetFactory(private val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory{
+class TimeTableWidgetFactory(private val context: Context, val intent: Intent) : RemoteViewsService.RemoteViewsFactory{
+    private var day: Int? = null
     private var subjects: ArrayList<Subject> = ArrayList()
     private var subjectsHelperRoom: ArrayList<String> = ArrayList()
     private var subjectsHelperType: ArrayList<String> = ArrayList()
     private var backendViewModel: BackEndViewModel? = null
 
     override fun onCreate() {
+        day = intent.getIntExtra("currentDay", 1)
+        Log.d("Widget", "$day")
         backendViewModel = BackEndViewModel(context.applicationContext as Application)
     }
 
     override fun onDataSetChanged() {
         Log.d("Widget", "onDataSetChanged")
-        loadData()
+        day?.let { loadData(it) }
     }
 
     override fun onDestroy() {subjects.clear()}
@@ -57,8 +60,8 @@ class TimeTableWidgetFactory(private val context: Context, intent: Intent) : Rem
         return true
     }
 
-    private fun loadData(){
-        val it = backendViewModel!!.getCurrentSubjects().blockingFirst()
+    private fun loadData(currentDay: Int){
+        val it = backendViewModel!!.getSubjectsByDay(currentDay).blockingFirst()
 
         //subjects.add(Subject(0, "Bazy Danych", "9:00", "12:00", 1))
         //subjects.add(Subject(1, "Warsztat programisty", "13:00", "15:00", 1))

@@ -31,4 +31,8 @@ class BackEndViewModel(application: Application) : AndroidViewModel(application)
     fun getCurrentSubjects(): Observable<JSONObject>{
         return backEndRepository.getCurrentSubjects()
     }
+
+    fun getSubjectsByDay(day: Int): Observable<JSONObject> {
+        return backEndRepository.getSubjectsByDay(day)
+    }
 }

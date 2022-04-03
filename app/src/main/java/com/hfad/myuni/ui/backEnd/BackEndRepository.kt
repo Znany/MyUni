@@ -65,6 +65,13 @@ class BackEndRepository {
         }
     }
 
+    fun getSubjectsByDay(day: Int): Observable<JSONObject> {
+        return Observable.fromCallable {
+            val url = URL("http://51.77.58.66/api.php?password=dupadupa321&&option=day_select&&day=$day")
+            urlConnectionToJSON(url, "GET")
+        }
+    }
+
     fun checkInternetConnection(): Observable<Boolean> {
         return Observable.fromCallable {
             val url = URL("https://www.google.com/")
