@@ -76,7 +76,6 @@ class TimeTableWidget : AppWidgetProvider() {
         if (intent != null) {
             val manager = AppWidgetManager.getInstance(context)
             if(intent.action == ACTION_BACK) {
-                Toast.makeText(context, "BACK", Toast.LENGTH_LONG).show()
                 if (context != null) {
                     updateWidget(context, intent.getIntExtra("ID", 0), manager, ACTION_BACK, intent.getIntExtra("INDEX", 0))
                 }
@@ -94,19 +93,40 @@ class TimeTableWidget : AppWidgetProvider() {
     }
 
     private fun updateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, action: String, index: Int){
+        var currentDay: Int?
+
+        if (action != "UPDATE" && values.size > index){
+            currentDay = values[index]
+        }
+        else{
+            currentDay = formatDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+        }
+
         val intToStringMap = mapOf(2 to "Poniedziałek", 3 to "Wtorek", 4 to "Środa", 5 to "Czwartek", 6 to "Piątek", 7 to "Poniedziałek", 1 to "Poniedziałek")
-        var currentDay = formatDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
 
         if(action == ACTION_BACK){
-            currentDay = formatDayActionBack(currentDay - 1)
+            currentDay -= 1
+            if(currentDay < 2){
+                currentDay = 2
+            }
         }
         else if (action == ACTION_FORWARD){
-            currentDay = formatDayActionForward(currentDay + 1)
+            currentDay += 1
+            if (currentDay > 6){
+                currentDay = 6
+            }
+        }
+
+        if(values.size <= index){
+            values.add(currentDay)
+        }
+        else{
+            values[index] = currentDay
         }
 
         val intent = Intent(context, TimeTableWidgetService::class.java).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra("currentDay", currentDay - 1)
+            putExtra("currentDay", values[index] - 1)
             data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
 
@@ -117,39 +137,7 @@ class TimeTableWidget : AppWidgetProvider() {
             setOnClickPendingIntent(R.id.widget_label_arrow_forward, intentBroadcast(context, ACTION_FORWARD, appWidgetId, index))
         }
 
-        if(values.size <= index){
-            values.add(currentDay)
-            views.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
-        }
-        else{
-            if(action == ACTION_BACK){
-
-            }
-        }
-
         views.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
-
-        /*
-        if(values.size <= iterator){
-            values.add(currentDay)
-            view.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
-        }
-        else{
-            when (action) {
-                "ARROW_BACK" -> {
-                    values[iterator] = formatDayActionBack(values[iterator] - 1)
-                    view.setTextViewText(R.id.widget_subject_text, "${intToStringMap[values[iterator]]}")
-                }
-                "ARROW_FORWARD" -> {
-
-                }
-                else -> {
-                    values[iterator] = currentDay
-                    view.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
-                }
-            }
-        }
-        */
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_subject_list)
