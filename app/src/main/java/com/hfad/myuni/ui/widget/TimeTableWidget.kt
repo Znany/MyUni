@@ -28,20 +28,6 @@ class TimeTableWidget : AppWidgetProvider() {
         return current
     }
 
-    private fun formatDayActionBack(current: Int): Int {
-        if(current == 1 || current == 0){
-            return 6
-        }
-        return current
-    }
-
-    private fun formatDayActionForward(current: Int): Int {
-        if(current == 7){
-            return 2
-        }
-        return current
-    }
-
     private fun intentBroadcast(context: Context, action: String, appWidgetId: Int, index: Int): PendingIntent{
         val intentBack = Intent(context, TimeTableWidget::class.java)
         intentBack.action = action
@@ -95,6 +81,8 @@ class TimeTableWidget : AppWidgetProvider() {
     private fun updateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, action: String, index: Int){
         var currentDay: Int?
 
+        Log.d("Widget", action)
+
         if (action != "UPDATE" && values.size > index){
             currentDay = values[index]
         }
@@ -139,7 +127,10 @@ class TimeTableWidget : AppWidgetProvider() {
 
         views.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
 
-        appWidgetManager.updateAppWidget(appWidgetId, views)
+        Log.d("Widget","Should update")
+        appWidgetManager.updateAppWidget(ComponentName(context, TimeTableWidget::class.java), views)
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_subject_list)
     }
+
+
 }
