@@ -2,9 +2,11 @@ package com.hfad.myuni.ui.localDatabase
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.hfad.myuni.ui.dataClass.Subject
 import com.hfad.myuni.ui.dataClass.Task
+import com.hfad.myuni.ui.dataClass.WidgetData
 
 @Dao
 interface DatabaseDao {
@@ -22,4 +24,10 @@ interface DatabaseDao {
 
     @Insert
     suspend fun insertSubjects(list: List<Subject>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWidgetData(data: WidgetData)
+
+    @Query("SELECT * FROM widget_data WHERE id = :my_id")
+    suspend fun getWidgetData(my_id: Int): WidgetData
 }

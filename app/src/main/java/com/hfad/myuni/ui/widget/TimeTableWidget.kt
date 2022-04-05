@@ -11,6 +11,9 @@ import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.hfad.myuni.R
+import com.hfad.myuni.ui.dataClass.WidgetData
+import com.hfad.myuni.ui.localDatabase.DatabaseBuilder
+import kotlinx.coroutines.*
 import java.util.*
 
 /**
@@ -79,57 +82,81 @@ class TimeTableWidget : AppWidgetProvider() {
     }
 
     private fun updateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, action: String, index: Int){
-        var currentDay: Int?
+        runBlocking {
+            GlobalScope.launch {
+                var currentDay: Int?
 
-        Log.d("Widget", action)
+                Log.d("Widget", action)
 
-        if (action != "UPDATE" && values.size > index){
-            currentDay = values[index]
-        }
-        else{
-            currentDay = formatDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
-        }
+                val localDatabase = DatabaseBuilder().getDb(context)
+                val widgetData = localDatabase.databaseDao().getWidgetData(appWidgetId)
 
-        val intToStringMap = mapOf(2 to "Poniedziałek", 3 to "Wtorek", 4 to "Środa", 5 to "Czwartek", 6 to "Piątek", 7 to "Poniedziałek", 1 to "Poniedziałek")
+                if(widgetData == null && action != "UPDATE"){
+                    currentDay = formatDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+                }
+                else{
+                    currentDay = widgetData.currentDay
+                }
 
-        if(action == ACTION_BACK){
-            currentDay -= 1
-            if(currentDay < 2){
-                currentDay = 2
+                Log.d("Widget day", currentDay.toString())
+
+                /*
+                if (action != "UPDATE" && values.size > index){
+                    currentDay = values[index]
+                }
+                else{
+                    currentDay = formatDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+                }
+                 */
+
+                val intToStringMap = mapOf(2 to "Poniedziałek", 3 to "Wtorek", 4 to "Środa", 5 to "Czwartek", 6 to "Piątek", 7 to "Poniedziałek", 1 to "Poniedziałek")
+
+                if(action == ACTION_BACK){
+                    currentDay -= 1
+                    if(currentDay < 2){
+                        currentDay = 2
+                    }
+                }
+                else if (action == ACTION_FORWARD){
+                    currentDay += 1
+                    if (currentDay > 6){
+                        currentDay = 6
+                    }
+                }
+
+                /*
+                if(values.size <= index){
+                    values.add(currentDay)
+                }
+                else{
+                    values[index] = currentDay
+                }
+                 */
+
+                localDatabase.databaseDao().insertWidgetData(WidgetData(appWidgetId, currentDay))
+
+                withContext(Dispatchers.Main){
+                    val intent = Intent(context, TimeTableWidgetService::class.java).apply {
+                        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                        putExtra("currentDay", currentDay - 1)
+                        data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                    }
+
+                    val views = RemoteViews(context.packageName, R.layout.time_table_widget).apply {
+                        setRemoteAdapter(R.id.widget_subject_list, intent)
+                        //Set on click listener
+                        setOnClickPendingIntent(R.id.widget_label_arrow_back, intentBroadcast(context, ACTION_BACK, appWidgetId, index))
+                        setOnClickPendingIntent(R.id.widget_label_arrow_forward, intentBroadcast(context, ACTION_FORWARD, appWidgetId, index))
+                    }
+
+                    views.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
+
+                    appWidgetManager.updateAppWidget(ComponentName(context, TimeTableWidget::class.java), views)
+                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_subject_list)
+                }
             }
         }
-        else if (action == ACTION_FORWARD){
-            currentDay += 1
-            if (currentDay > 6){
-                currentDay = 6
-            }
-        }
 
-        if(values.size <= index){
-            values.add(currentDay)
-        }
-        else{
-            values[index] = currentDay
-        }
-
-        val intent = Intent(context, TimeTableWidgetService::class.java).apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra("currentDay", values[index] - 1)
-            data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-        }
-
-        val views = RemoteViews(context.packageName, R.layout.time_table_widget).apply {
-            setRemoteAdapter(R.id.widget_subject_list, intent)
-            //Set on click listener
-            setOnClickPendingIntent(R.id.widget_label_arrow_back, intentBroadcast(context, ACTION_BACK, appWidgetId, index))
-            setOnClickPendingIntent(R.id.widget_label_arrow_forward, intentBroadcast(context, ACTION_FORWARD, appWidgetId, index))
-        }
-
-        views.setTextViewText(R.id.widget_subject_text, "${intToStringMap[currentDay]}")
-
-        Log.d("Widget","Should update")
-        appWidgetManager.updateAppWidget(ComponentName(context, TimeTableWidget::class.java), views)
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_subject_list)
     }
 
 
