@@ -6,9 +6,18 @@
 
 ### A collaborative project, set up by two students which aims to provide mobile app with functions like timetable and tasks-to-do
 
-### server-side developer 
+### server-side developer:  [Adam Grochowski](https://github.com/Znany)
 
-### android mobile developer
+### android mobile developer: [Kamil Radzimowski](https://github.com/DzikiOwoc15)
+
+### Switch to branch in which you are interested in
+
+---
+## Tech used
+
+### Languages: Kotlin, PHP
+
+### Android Tech: RxKotlin, Kotlin coroutines, MVVM, Room local database
 
 ---
 
