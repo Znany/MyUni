@@ -16,15 +16,28 @@
 
 ### :clipboard: Tasks stored on our servers 
 
+<img src="readme_data/main_tasks.png" alt="drawing" width="200"/>
+
 ### :chart_with_upwards_trend: Save tasks that have been completed
+
+<img src="readme_data/main_tasks_done.png" alt="drawing" width="200"/>
 
 ### :bar_chart: Timetable
 
+<img src="readme_data/timetable.png" alt="drawing" width="200"/>
+
 ### :iphone: Timetable widget on your's phone main screen
+
+<img src="readme_data/widget.png" alt="drawing" width="200"/>
 
 ### :white_check_mark: Add new tasks 
 
+<img src="readme_data/add_task_light.png" alt="drawing" width="200"/>
+
 ### :moon: Dark and :sun_with_face: light mode
+
+<img src="readme_data/add_task_dark.png" alt="drawing" width="200" style="float:left"/>
+<img src="readme_data/add_task_light.png" alt="drawing" width="200" style="float:left"/>
 
 ---
 
