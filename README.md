@@ -1,4 +1,4 @@
-# MyUni main branch
+# MyUni
 
 ---
 
