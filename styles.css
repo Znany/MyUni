@@ -1,0 +1,179 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+}
+
+body nav {
+  position: relative;
+  height: 60px;
+  background-color: #3f51b5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 1;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+body nav a {
+  text-decoration: none;
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+body nav li {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  list-style: none;
+  padding: 10px 20px;
+  -webkit-transition: -webkit-transform .5s ease-in-out;
+  transition: -webkit-transform .5s ease-in-out;
+  transition: transform .5s ease-in-out;
+  transition: transform .5s ease-in-out, -webkit-transform .5s ease-in-out;
+  cursor: pointer;
+}
+
+body nav li.icon {
+  color: whitesmoke;
+  font-size: 23px;
+  -webkit-transition: -webkit-transform 1s ease-in-out;
+  transition: -webkit-transform 1s ease-in-out;
+  transition: transform 1s ease-in-out;
+  transition: transform 1s ease-in-out, -webkit-transform 1s ease-in-out;
+}
+
+body nav li.icon:hover {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
+body nav li:not(.icon):hover {
+  -webkit-transform: scale(1.1, 1.1);
+          transform: scale(1.1, 1.1);
+}
+
+body nav li a {
+  -webkit-transition: text-shadow .5s ease-in-out;
+  transition: text-shadow .5s ease-in-out;
+}
+
+body nav li a:hover {
+  text-shadow: 3px 4px 5px #000;
+}
+
+body main {
+  position: relative;
+  z-index: 0;
+}
+
+body main .bg {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 500px;
+  background-color: #3f51b5;
+}
+
+body main .bg .bglogo {
+  font-size: 600px;
+  color: whitesmoke;
+  position: absolute;
+  opacity: 40%;
+}
+
+body main .bg .header {
+  position: relative;
+  bottom: 65px;
+  font-size: 50px;
+  color: whitesmoke;
+}
+
+body main .bg .desc {
+  position: relative;
+  bottom: 50px;
+  font-size: 20px;
+  color: whitesmoke;
+}
+
+body .wrapper {
+  position: relative;
+  margin: auto;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  width: 1000px;
+  color: #757575;
+  background-color: white;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+body .wrapper .grid3 {
+  justify-items: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+}
+
+body .wrapper .box {
+  width: 300px;
+}
+
+body .wrapper .box .small-header {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+body .wrapper .images {
+  margin-top: 100px;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+}
+
+body .wrapper .images img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: -webkit-transform .3s ease-in-out,-webkit-box-shadow .3s ease-in-out;
+  transition: -webkit-transform .3s ease-in-out,-webkit-box-shadow .3s ease-in-out;
+  transition: transform .3s ease-in-out,box-shadow .3s ease-in-out;
+  transition: transform .3s ease-in-out,box-shadow .3s ease-in-out,-webkit-transform .3s ease-in-out,-webkit-box-shadow .3s ease-in-out;
+  height: 200px;
+  width: 250px;
+  border-radius: 10px;
+}
+
+body .wrapper .images img:hover {
+  -webkit-box-shadow: 0px 0px 24px 4px rgba(66, 68, 90, 0.48);
+          box-shadow: 0px 0px 24px 4px rgba(66, 68, 90, 0.48);
+  -webkit-transform: scale(1.05, 1.05);
+          transform: scale(1.05, 1.05);
+}
+/*# sourceMappingURL=styles.css.map */
