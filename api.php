@@ -1,5 +1,6 @@
 
 <?php
+require 'options.php';
 
 date_default_timezone_set("Europe/Warsaw");
 $pass = $_GET["password"];
@@ -9,7 +10,6 @@ if (!isset($pass) || !($pass == $SET_VAR_PASS)) {
     exit("Unauthorized");
 }
 
-require 'options.php';
 
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: " . $mysqli->connect_error;
